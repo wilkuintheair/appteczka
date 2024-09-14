@@ -1,20 +1,27 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import * as Location from "expo-location";
 import { AidKit, AIDS_LIST } from "@/constants/AidKits";
 import { useFindNearestAid } from "@/hooks/useFindNearestAid";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { SelectedAidKitContent } from "@/components/SelectedAidKitContent";
+import { makeStyles } from "@rneui/themed";
 
 type Params = {
   nearest: string;
 };
 
 export default function MapScreen() {
+  const styles = useStyles();
   const { nearest } = useLocalSearchParams<Params>();
+
   const mapRef = useRef<MapView>(null);
   const userLocationRef = useRef<Location.LocationObject | null>(null);
-  const router = useRouter();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const [selectedAidKit, setSelectedAidKit] = useState<AidKit | null>(null);
 
   const { findNearestAid } = useFindNearestAid();
 
@@ -65,13 +72,9 @@ export default function MapScreen() {
     })();
   }, []);
 
-  const onCalloutPress = (aid: AidKit) => {
-    router.push({
-      pathname: "/aid-details",
-      params: {
-        id: aid.id,
-      },
-    });
+  const onMarkerPress = (aid: AidKit) => {
+    bottomSheetRef.current?.snapToIndex(0);
+    setSelectedAidKit(aid);
   };
 
   return (
@@ -81,21 +84,38 @@ export default function MapScreen() {
           <Marker
             key={index}
             coordinate={aid.marker}
-            title="Apteczka"
-            description="Opis apteczki"
-            onCalloutPress={() => onCalloutPress(aid)}
+            title={aid.name}
+            description={aid.shortDescription}
+            onPress={() => onMarkerPress(aid)}
           />
         ))}
       </MapView>
+      <BottomSheet
+        index={-1}
+        snapPoints={["25%", "100%"]}
+        backgroundStyle={styles.bottomSheetBackground}
+        enablePanDownToClose
+        enableDynamicSizing={false}
+        ref={bottomSheetRef}
+      >
+        {selectedAidKit ? (
+          <SelectedAidKitContent aidKit={selectedAidKit} />
+        ) : (
+          <View />
+        )}
+      </BottomSheet>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(({ colors }) => ({
   container: {
     flex: 1,
   },
   map: {
     flex: 1,
   },
-});
+  bottomSheetBackground: {
+    backgroundColor: colors.grey5,
+  },
+}));

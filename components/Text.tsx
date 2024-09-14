@@ -1,5 +1,4 @@
-import { makeStyles } from "@rneui/themed";
-import { Text as RNText, TextProps } from "react-native";
+import { makeStyles, Text as RNText, TextProps } from "@rneui/themed";
 
 export const Text = (props: TextProps) => {
   const style = useStyles();
