@@ -1,20 +1,10 @@
-import {Alert, StyleSheet, View} from "react-native";
-import MapView, {Marker} from "react-native-maps";
-import {useLocalSearchParams, useRouter} from "expo-router";
-import {useEffect, useRef} from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useRef } from "react";
 import * as Location from "expo-location";
-import {AidKit, AIDS_LIST} from "@/constants/AidKits";
-import {useFindNearestAid} from "@/hooks/useFindNearestAid";
-
-/**
- * This screen will contain a map with aids nearby
- * Also it will contain a FAB button to
- * - call emergency services
- * - plan trip
- *
- *
- * @constructor
- */
+import { AidKit, AIDS_LIST } from "@/constants/AidKits";
+import { useFindNearestAid } from "@/hooks/useFindNearestAid";
 
 type Params = {
   nearest: string;
