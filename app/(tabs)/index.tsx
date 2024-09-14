@@ -1,17 +1,17 @@
 import { SafeAreaView, View } from "react-native";
-import { Button, makeStyles } from "@rneui/themed";
-import { Link } from "expo-router";
+import { makeStyles } from "@rneui/themed";
+import { HomeButton } from "@/components/HomeButton";
 
 export default function HomeScreen() {
   const styles = useStyles();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
-        <Button size={"lg"}>Zgłoś zdarzenie</Button>
-        <Button size={"lg"}>Wezwij pomoc</Button>
-        <Link href={"/map?nearest=true"} asChild>
-          <Button size={"lg"}>Znajdź najbliższą apteczkę</Button>
-        </Link>
+        <HomeButton href={"/report-issue"}>Zgłoś zdarzenie</HomeButton>
+        <HomeButton href={"/call-help"}>Wezwij pomoc</HomeButton>
+        <HomeButton href={"/map?nearest=true"}>
+          Znajdź najbliższą apteczkę
+        </HomeButton>
       </View>
     </SafeAreaView>
   );
