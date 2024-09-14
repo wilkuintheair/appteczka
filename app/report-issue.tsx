@@ -1,5 +1,6 @@
 import { SafeAreaView } from "react-native";
-import { makeStyles, Text } from "@rneui/themed";
+import { makeStyles } from "@rneui/themed";
+import { Text } from "@/components/Text";
 
 export default function ReportIssueScreen() {
   const style = useStyles();
