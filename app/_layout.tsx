@@ -36,7 +36,10 @@ export default function RootLayout() {
     <RNUIThemeProvider theme={createTheme(theme)}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(tabs)"
+            options={{ headerShown: false, title: "" }}
+          />
           <Stack.Screen name="call-help" options={{ title: "Wezwij pomoc" }} />
           <Stack.Screen
             name="report-issue"
