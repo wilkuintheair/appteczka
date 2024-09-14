@@ -42,7 +42,7 @@ export default function TabLayout() {
           title: "Pierwsza pomoc",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "help" : "help-outline"}
+              name={focused ? "medkit" : "medkit-outline"}
               color={color}
             />
           ),
