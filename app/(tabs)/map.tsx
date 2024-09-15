@@ -76,21 +76,34 @@ export default function MapScreen() {
     })();
   }, []);
 
+  const onMapPress = () => {
+    bottomSheetRef.current?.close();
+    setSelectedAidKit(null);
+  };
+
   const onMarkerPress = (aid: AidKit) => {
-    bottomSheetRef.current?.snapToIndex(0);
     setSelectedAidKit(aid);
+    bottomSheetRef.current?.snapToIndex(0);
   };
 
   return (
     <View style={styles.container}>
-      <MapView ref={mapRef} style={styles.map} showsUserLocation>
+      <MapView
+        ref={mapRef}
+        style={styles.map}
+        showsUserLocation
+        onPress={onMapPress}
+      >
         {AIDS_LIST.map((aid, index) => (
           <Marker
             key={index}
             coordinate={aid.marker}
             title={aid.name}
             description={aid.shortDescription}
-            onPress={() => onMarkerPress(aid)}
+            onPress={(event) => {
+              event.stopPropagation();
+              onMarkerPress(aid);
+            }}
           />
         ))}
       </MapView>
