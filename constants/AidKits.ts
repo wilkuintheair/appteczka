@@ -12,6 +12,12 @@ export type AidKitMarker = {
   longitude: number;
 };
 
+export type AidKitSponsor = {
+  name: string;
+  link: string;
+  description: string;
+};
+
 export type AidKit = {
   id: string;
   name: string;
@@ -20,6 +26,7 @@ export type AidKit = {
   image?: string;
   marker: AidKitMarker;
   content: AidKitContent;
+  sponsor?: AidKitSponsor;
 };
 
 export const getAidKit = (id: string): AidKit => {
@@ -86,6 +93,12 @@ export const AIDS_LIST: AidKit[] = [
     id: "0",
     name: "Klimczok",
     marker: { latitude: 49.74001, longitude: 18.995952 },
+    sponsor: {
+      name: "Uniwersytet Bielsko-Bialski",
+      link: "https://www.ath.bielsko.pl/",
+      description:
+        "Uniwersytet Bielsko Bialski to uczelnia, która dba o zdrowie swoich studentów.",
+    },
   },
   {
     ...commonData,

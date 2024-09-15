@@ -16,6 +16,7 @@ import { Scanner } from "@/components/Scanner";
 import { scheduleOpenAidKitSequence } from "@/utils/scheduleOpenAidKitSequence";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
+import { AidKitSponsorView } from "@/components/AidKitSponsorView";
 
 export default function OpenAidKitScreen() {
   const styles = useStyles();
@@ -84,6 +85,12 @@ export default function OpenAidKitScreen() {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <AidKitHeader image={aidKit.image} description={aidKit.description} />
+        {aidKit.sponsor && (
+          <>
+            <View style={styles.separator} />
+            <AidKitSponsorView sponsor={aidKit.sponsor} />
+          </>
+        )}
         <View style={styles.separator} />
         {!validated && (
           <Pressable onLongPress={openAidKit}>

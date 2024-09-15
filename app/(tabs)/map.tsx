@@ -40,6 +40,9 @@ export default function MapScreen() {
   useEffect(() => {
     (async () => {
       try {
+        if (nearest) {
+          return;
+        }
         const permissions = await Location.getForegroundPermissionsAsync();
         if (!permissions.granted) {
           const { status } = await Location.requestForegroundPermissionsAsync();
@@ -51,7 +54,7 @@ export default function MapScreen() {
         const location = await Location.getCurrentPositionAsync();
         userLocationRef.current = location;
 
-        if (location && !nearest) {
+        if (location) {
           setTimeout(
             () =>
               mapRef.current?.animateCamera(
@@ -109,8 +112,9 @@ export default function MapScreen() {
       </MapView>
       <BottomSheet
         index={-1}
-        snapPoints={["35%", "100%"]}
+        snapPoints={["25%", "100%"]}
         backgroundStyle={styles.bottomSheetBackground}
+        onClose={() => setSelectedAidKit(null)}
         enablePanDownToClose
         enableDynamicSizing={false}
         ref={bottomSheetRef}
@@ -132,7 +136,7 @@ const AidKitFAB = ({ aidKit }: { aidKit: AidKit }) => {
   return (
     <FAB
       placement={"right"}
-      icon={{ name: "lock-open", color: "white" }}
+      icon={{ type: "font-awesome", name: "plus", color: "white" }}
       onPress={() => {
         router.navigate({
           pathname: "/open-aid-kit",

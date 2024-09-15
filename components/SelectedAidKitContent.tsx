@@ -4,6 +4,7 @@ import { AidKit } from "@/constants/AidKits";
 import { makeStyles } from "@rneui/themed";
 import { AidKitHeader } from "@/components/AidKitHeader";
 import { AidKitContentTable } from "@/components/AidKitContentTable";
+import { AidKitSponsorView } from "@/components/AidKitSponsorView";
 
 type Props = {
   aidKit: AidKit;
@@ -19,6 +20,12 @@ export const SelectedAidKitContent = ({ aidKit }: Props) => {
           image={aidKit.image}
           description={aidKit.description}
         />
+        {aidKit.sponsor && (
+          <>
+            <View style={styles.separator} />
+            <AidKitSponsorView sponsor={aidKit.sponsor} />
+          </>
+        )}
         <View style={styles.separator} />
         <Text h4>Zawartość</Text>
         <AidKitContentTable content={aidKit.content} />

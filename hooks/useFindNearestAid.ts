@@ -14,6 +14,14 @@ export const useFindNearestAid = () => {
       return userLocationRef.current;
     }
 
+    const permissions = await Location.getForegroundPermissionsAsync();
+    if (!permissions.granted) {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        throw new Error("Location permission not granted");
+      }
+    }
+
     return new Promise<Location.LocationObject>((resolve, reject) => {
       const id = setTimeout(() => {
         reject(new Error("User location not found"));
