@@ -1,13 +1,13 @@
 import { Alert, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import * as Location from "expo-location";
 import { AidKit, AIDS_LIST } from "@/constants/AidKits";
 import { useFindNearestAid } from "@/hooks/useFindNearestAid";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { SelectedAidKitContent } from "@/components/SelectedAidKitContent";
-import { makeStyles } from "@rneui/themed";
+import { FAB, makeStyles } from "@rneui/themed";
 
 type Params = {
   nearest: string;
@@ -121,11 +121,29 @@ export default function MapScreen() {
           <View />
         )}
       </BottomSheet>
+      {selectedAidKit && <AidKitFAB aidKit={selectedAidKit} />}
     </View>
   );
 }
 
-const useStyles = makeStyles(({ colors }) => ({
+const AidKitFAB = ({ aidKit }: { aidKit: AidKit }) => {
+  const router = useRouter();
+
+  return (
+    <FAB
+      placement={"right"}
+      icon={{ name: "lock-open", color: "white" }}
+      onPress={() => {
+        router.navigate({
+          pathname: "/open-aid-kit",
+          params: { aidId: aidKit.id },
+        });
+      }}
+    />
+  );
+};
+
+const useStyles = makeStyles(({ colors, spacing }) => ({
   container: {
     flex: 1,
   },
@@ -134,5 +152,13 @@ const useStyles = makeStyles(({ colors }) => ({
   },
   bottomSheetBackground: {
     backgroundColor: colors.grey5,
+  },
+  fabContainer: {
+    position: "absolute",
+    justifyContent: "flex-end",
+    gap: spacing.lg,
+    top: spacing.lg,
+    bottom: spacing.lg,
+    right: spacing.lg,
   },
 }));

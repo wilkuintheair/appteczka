@@ -1,9 +1,11 @@
-export type AidKitContent = {
+export type AidKitContentItem = {
   id: string;
   name: string;
   quantity: number;
   fullQuantity: number;
 };
+
+export type AidKitContent = AidKitContentItem[];
 
 export type AidKitMarker = {
   latitude: number;
@@ -17,7 +19,7 @@ export type AidKit = {
   shortDescription?: string;
   image?: string;
   marker: AidKitMarker;
-  content: AidKitContent[];
+  content: AidKitContent;
 };
 
 export const getAidKit = (id: string): AidKit => {

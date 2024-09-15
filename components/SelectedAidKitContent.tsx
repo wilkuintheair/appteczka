@@ -1,7 +1,9 @@
 import { Text } from "@/components/Text";
-import { Image, SafeAreaView, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { AidKit } from "@/constants/AidKits";
 import { makeStyles } from "@rneui/themed";
+import { AidKitHeader } from "@/components/AidKitHeader";
+import { AidKitContentTable } from "@/components/AidKitContentTable";
 
 type Props = {
   aidKit: AidKit;
@@ -12,56 +14,17 @@ export const SelectedAidKitContent = ({ aidKit }: Props) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <View style={styles.header}>
-          {aidKit.image && (
-            <Image source={{ uri: aidKit.image }} style={styles.image} />
-          )}
-          <View style={styles.headerText}>
-            <Text h2>{aidKit?.name}</Text>
-            <Text>{aidKit?.description}</Text>
-          </View>
-        </View>
+        <AidKitHeader
+          title={aidKit.name}
+          image={aidKit.image}
+          description={aidKit.description}
+        />
         <View style={styles.separator} />
         <Text h4>Zawartość</Text>
-        <View style={styles.contentContainer}>
-          {aidKit.content.map((item, index) => (
-            <View
-              style={[index % 2 ? styles.oddRow : null, styles.contentRow]}
-              key={index}
-            >
-              <Text>
-                <QuantityIndicator
-                  quantity={item.quantity}
-                  full={item.fullQuantity}
-                />
-                {item.name}
-              </Text>
-              <Text>{item.quantity}</Text>
-            </View>
-          ))}
-        </View>
+        <AidKitContentTable content={aidKit.content} />
       </View>
     </SafeAreaView>
   );
-};
-
-const QuantityIndicator = ({
-  quantity,
-  full,
-}: {
-  quantity: number;
-  full: number;
-}) => {
-  const lowQuantity = "🔴 ";
-  const mediumQuantity = "🟡 ";
-  const highQuantity = "🟢 ";
-  const levels = [0.1, 0.5, 0.8];
-
-  return quantity / full <= levels[0]
-    ? lowQuantity
-    : quantity / full <= levels[1]
-      ? mediumQuantity
-      : highQuantity;
 };
 
 const useStyles = makeStyles(({ colors, spacing }) => ({
@@ -77,20 +40,6 @@ const useStyles = makeStyles(({ colors, spacing }) => ({
     padding: spacing.xl,
     gap: spacing.xl,
   },
-  header: {
-    flexDirection: "row",
-    gap: spacing.lg,
-  },
-  headerText: {
-    flex: 1,
-    gap: spacing.sm,
-  },
-  image: {
-    width: 64,
-    height: 64,
-    resizeMode: "cover",
-  },
-  contentContainer: {},
   contentRow: {
     padding: spacing.sm,
     flexDirection: "row",
