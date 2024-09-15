@@ -14,6 +14,8 @@ import { Text } from "@/components/Text";
 import { useEffect, useState } from "react";
 import { Scanner } from "@/components/Scanner";
 import { scheduleOpenAidKitSequence } from "@/utils/scheduleOpenAidKitSequence";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
 export default function OpenAidKitScreen() {
   const styles = useStyles();
@@ -55,6 +57,18 @@ export default function OpenAidKitScreen() {
 
   const openAidKit = () => {
     setValidated(true);
+    const user = auth().currentUser;
+    if (user) {
+      firestore()
+        .collection("Users")
+        .doc(user.uid)
+        .update({
+          aidKits: firestore.FieldValue.arrayUnion({
+            id: aidId,
+            timestamp: new Date().getTime(),
+          }),
+        });
+    }
     void scheduleOpenAidKitSequence();
   };
 

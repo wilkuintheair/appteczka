@@ -1,7 +1,7 @@
 import { Href, useRouter } from "expo-router";
 import { Button, Icon, makeStyles } from "@rneui/themed";
 import { ReactNode } from "react";
-import { View } from "react-native";
+import { Pressable } from "react-native";
 
 type Props = {
   href: Href<string>;
@@ -18,12 +18,10 @@ export const HomeButton = ({ href, children, icon, type }: Props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <Icon type={type ?? "font-awesome"} size={64} name={icon} />
-      <Button onPress={onPress} size={"lg"}>
-        {children}
-      </Button>
-    </View>
+      <Button size={"lg"}>{children}</Button>
+    </Pressable>
   );
 };
 
