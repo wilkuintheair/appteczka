@@ -74,10 +74,8 @@ export const useFindNearestAid = () => {
         longitudeDelta: maxY - minY + 0.04,
       };
 
-      console.log("region", region);
-
       setRegion(region);
-      return region;
+      return { region, nearest: nearestRef.current };
     }
   };
 

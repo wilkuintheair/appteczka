@@ -27,9 +27,13 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (nearest) {
-      findNearestAid().then(
-        (region) => region && mapRef.current?.animateToRegion(region, 1000),
-      );
+      findNearestAid().then((result) => {
+        if (result) {
+          result.region && mapRef.current?.animateToRegion(result.region, 1000);
+          result.nearest && setSelectedAidKit(result.nearest);
+          bottomSheetRef.current?.snapToIndex(0);
+        }
+      });
     }
   }, [nearest]);
 
