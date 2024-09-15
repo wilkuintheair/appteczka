@@ -67,6 +67,7 @@ export default function OpenAidKitScreen() {
             id: aidId,
             timestamp: new Date().getTime(),
           }),
+          score: firestore.FieldValue.increment(1),
         });
     }
     void scheduleOpenAidKitSequence();

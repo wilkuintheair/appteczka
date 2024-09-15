@@ -5,15 +5,17 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Image, View } from "react-native";
 import { Text } from "@/components/Text";
 import firestore from "@react-native-firebase/firestore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type User = {
   displayName: string | null;
   photoURL: string | null;
   email: string | null;
   uid: string;
+  score: number | null;
   aidKits?: object[];
 };
+
 export default function RankScreen() {
   const styles = useStyles();
   const { colors } = useTheme().theme;
@@ -22,29 +24,10 @@ export default function RankScreen() {
   const user = auth().currentUser;
   const usersCollection = firestore().collection<User>("Users");
 
-  useEffect(() => {
-    usersCollection.get().then((querySnapshot) => {
-      querySnapshot.query.orderBy("aidKits", "desc");
-      setRank(querySnapshot.docs);
-    });
-  }, []);
-
-  async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    // Get the users ID token
-    const { data } = await GoogleSignin.signIn();
-    const idToken = data?.idToken;
-
-    if (!idToken) {
-      return;
-    }
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
-  }
+  usersCollection.get().then((querySnapshot) => {
+    const query = querySnapshot.query.orderBy("score", "desc");
+    query.get().then((querySnapshot) => setRank(querySnapshot.docs));
+  });
 
   return (
     <ParallaxScrollView
@@ -61,13 +44,26 @@ export default function RankScreen() {
     >
       {!user || user.isAnonymous ? (
         <View style={styles.inviteContainer}>
-          <Text h3>Dołącz do zabawy</Text>
-          <Text h4>
-            Co miesiąc nagradzamy najaktywniejszych użytkowników 🎉
+          <Text style={styles.inviteText} h3>
+            Dołącz do zabawy
+          </Text>
+          <Text style={styles.inviteText} h4>
+            Co miesiąc nagradzamy najaktywniejszych użytkowników
+          </Text>
+          <Text style={styles.inviteText} h1>
+            🎉
+          </Text>
+          <Text style={styles.inviteText} h4>
+            Wraz z naszymi partnerami przygotowaliśmy dla Was wiele atrakcyjnych
+            nagród. Wystarczy, że zalogujesz się za pomocą konta Google, a już
+            jesteś w grze!
+          </Text>
+          <Text style={styles.inviteText} h1>
+            ⛳
           </Text>
           <Button
             style={styles.signInButton}
-            title="Google Sign-In"
+            title="Zaloguj się z Google"
             onPress={() =>
               onGoogleButtonPress().then((result) => {
                 const user = result?.user;
@@ -82,6 +78,7 @@ export default function RankScreen() {
                     photoURL: user.photoURL,
                     email: user.email,
                     uid: user.uid,
+                    score: 1,
                   })
                   .catch((error) => console.error(error));
               })
@@ -110,7 +107,6 @@ export default function RankScreen() {
                 style={styles.rowImage}
               />
               <Text h4>{doc.data().displayName}</Text>
-              <View style={styles.break} />
               <Text h4>{doc.data().aidKits?.length}</Text>
             </View>
           ))}
@@ -118,6 +114,19 @@ export default function RankScreen() {
       )}
     </ParallaxScrollView>
   );
+}
+
+async function onGoogleButtonPress() {
+  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  const { data } = await GoogleSignin.signIn();
+  const idToken = data?.idToken;
+
+  if (!idToken) {
+    return;
+  }
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+  return auth().signInWithCredential(googleCredential);
 }
 
 const useStyles = makeStyles(({ colors, spacing }) => ({
@@ -139,6 +148,9 @@ const useStyles = makeStyles(({ colors, spacing }) => ({
     flex: 1,
     alignItems: "center",
     gap: spacing.xl,
+  },
+  inviteText: {
+    textAlign: "center",
   },
   rankRow: {
     flexDirection: "row",
