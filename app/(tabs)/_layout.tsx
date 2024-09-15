@@ -37,6 +37,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name={"rank"}
+        options={{
+          title: "Ranking",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "podium" : "podium-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="first-aid"
         options={{
           title: "Pierwsza pomoc",

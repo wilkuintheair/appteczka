@@ -7,7 +7,7 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 import { createTheme, ThemeProvider as RNUIThemeProvider } from "@rneui/themed";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -15,6 +15,13 @@ import { theme } from "@/constants/theme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
 import { Alert } from "react-native";
+import auth from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
+GoogleSignin.configure({
+  webClientId:
+    "496173996804-ckmkcsgmdoo7nnqo7olt8qjlcphpkcce.apps.googleusercontent.com",
+});
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,6 +33,33 @@ export default function RootLayout() {
   });
 
   const mode = colorScheme === "dark" ? "dark" : "light";
+
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged((user) => {
+      // @ts-ignore
+      setUser(user);
+      console.log("User state changed", user);
+      if (initializing) setInitializing(false);
+    });
+
+    // auth()
+    //   .signInAnonymously()
+    //   .then(() => {
+    //     console.log("User signed in anonymously");
+    //   })
+    //   .catch((error) => {
+    //     if (error.code === "auth/operation-not-allowed") {
+    //       console.log("Enable anonymous in your firebase console.");
+    //     }
+    //
+    //     console.error(error);
+    //   });
+
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
   useEffect(() => {
     if (loaded) {

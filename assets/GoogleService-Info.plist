@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>496173996804-621keqaoap106144ul09s58cuhv4j74e.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.496173996804-621keqaoap106144ul09s58cuhv4j74e</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>496173996804-5jvln20tr3h7cra4m4veerskaco0hcsu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDJFzwLeWefIbu6Qpl26kMzSYdNpVwaefg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>496173996804</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wilku.appteczka</string>
+	<key>PROJECT_ID</key>
+	<string>appteczka-af527</string>
+	<key>STORAGE_BUCKET</key>
+	<string>appteczka-af527.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:496173996804:ios:cde6e5a1e9fc8241de8e51</string>
+</dict>
+</plist>
