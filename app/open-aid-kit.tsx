@@ -12,6 +12,7 @@ import { BarcodeScanningResult, useCameraPermissions } from "expo-camera";
 import { Text } from "@/components/Text";
 import { useEffect, useState } from "react";
 import { Scanner } from "@/components/Scanner";
+import { scheduleOpenAidKitSequence } from "@/utils/scheduleOpenAidKitSequence";
 
 export default function OpenAidKitScreen() {
   const styles = useStyles();
@@ -51,10 +52,15 @@ export default function OpenAidKitScreen() {
     );
   }
 
+  const openAidKit = () => {
+    setValidated(true);
+    void scheduleOpenAidKitSequence();
+  };
+
   const onBarcodeScanned = (data: BarcodeScanningResult) => {
     if (data) {
       // TODO: Validate the scanned data
-      setValidated(true);
+      openAidKit();
     }
   };
 
