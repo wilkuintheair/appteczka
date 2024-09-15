@@ -13,6 +13,8 @@ import { createTheme, ThemeProvider as RNUIThemeProvider } from "@rneui/themed";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { theme } from "@/constants/theme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as Notifications from "expo-notifications";
+import { Alert } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,6 +36,21 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
+
+  useEffect(() => {
+    (async () => {
+      const permissions = await Notifications.getPermissionsAsync();
+      if (!permissions.granted) {
+        const { status } = await Notifications.requestPermissionsAsync();
+        if (status !== "granted") {
+          Alert.alert(
+            "Brak uprawnień do powiadomień",
+            "Aplikacja nie będzie działać poprawnie bez uprawnień do powiadomień.",
+          );
+        }
+      }
+    })();
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
