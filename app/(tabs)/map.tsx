@@ -96,7 +96,7 @@ export default function MapScreen() {
       </MapView>
       <BottomSheet
         index={-1}
-        snapPoints={["25%", "100%"]}
+        snapPoints={["35%", "100%"]}
         backgroundStyle={styles.bottomSheetBackground}
         enablePanDownToClose
         enableDynamicSizing={false}

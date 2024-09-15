@@ -1,12 +1,23 @@
+export type AidKitContent = {
+  id: string;
+  name: string;
+  quantity: number;
+  fullQuantity: number;
+};
+
+export type AidKitMarker = {
+  latitude: number;
+  longitude: number;
+};
+
 export type AidKit = {
   id: string;
   name: string;
   description?: string;
   shortDescription?: string;
-  marker: {
-    latitude: number;
-    longitude: number;
-  };
+  image?: string;
+  marker: AidKitMarker;
+  content: AidKitContent[];
 };
 
 export const getAidKit = (id: string): AidKit => {
@@ -20,6 +31,51 @@ export const getAidKit = (id: string): AidKit => {
 const commonData = {
   description: "Appteczka w bardzo dostępnym miejscu. Znajduje się na polanie.",
   shortDescription: "Na polanie",
+  image: "https://apteczkanaszlaku.pl/phoocmal/2023/07/mal-400x250.png",
+  content: [
+    {
+      id: "0",
+      name: "Plaster",
+      quantity: 10,
+      fullQuantity: 10,
+    },
+    {
+      id: "1",
+      name: "Opaska",
+      quantity: 5,
+      fullQuantity: 10,
+    },
+    {
+      id: "2",
+      name: "Płyn dezynfekcyjny",
+      quantity: 2,
+      fullQuantity: 10,
+    },
+    {
+      id: "3",
+      name: "Rękawiczki",
+      quantity: 5,
+      fullQuantity: 10,
+    },
+    {
+      id: "4",
+      name: "Nożyczki",
+      quantity: 1,
+      fullQuantity: 10,
+    },
+    {
+      id: "5",
+      name: "Chusteczki",
+      quantity: 10,
+      fullQuantity: 10,
+    },
+    {
+      id: "6",
+      name: "Gazik",
+      quantity: 5,
+      fullQuantity: 10,
+    },
+  ],
 };
 
 export const AIDS_LIST: AidKit[] = [
