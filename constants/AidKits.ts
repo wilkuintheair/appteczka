@@ -26,8 +26,8 @@ export const AIDS_LIST: AidKit[] = [
   {
     ...commonData,
     id: "0",
-    name: "Appteczka 0",
-    marker: { latitude: 49.765678, longitude: 19.021004 },
+    name: "Klimczok",
+    marker: { latitude: 49.74001, longitude: 18.995952 },
   },
   {
     ...commonData,
@@ -45,7 +45,7 @@ export const AIDS_LIST: AidKit[] = [
     ...commonData,
     id: "3",
     name: "Appteczka 3",
-    marker: { latitude: 49.765678, longitude: 19.121004 },
+    marker: { latitude: 49.694678, longitude: 19.122004 },
   },
   {
     ...commonData,
