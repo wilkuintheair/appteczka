@@ -1,7 +1,6 @@
-import { FAB, makeStyles } from "@rneui/themed";
+import { makeStyles } from "@rneui/themed";
 import {
   ActivityIndicator,
-  Dimensions,
   SafeAreaView,
   StyleSheet,
   View,
@@ -9,16 +8,10 @@ import {
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { getAidKit } from "@/constants/AidKits";
 import { AidKitHeader } from "@/components/AidKitHeader";
-import {
-  BarcodeScanningResult,
-  CameraProps,
-  CameraView,
-  useCameraPermissions,
-} from "expo-camera";
+import { BarcodeScanningResult, useCameraPermissions } from "expo-camera";
 import { Text } from "@/components/Text";
-import { useEffect, useRef, useState } from "react";
-
-const width = Dimensions.get("window").width;
+import { useEffect, useState } from "react";
+import { Scanner } from "@/components/Scanner";
 
 export default function OpenAidKitScreen() {
   const styles = useStyles();
@@ -76,39 +69,6 @@ export default function OpenAidKitScreen() {
   );
 }
 
-const Scanner = (props: CameraProps) => {
-  const styles = useStyles();
-  const cameraRef = useRef<CameraView>(null);
-  const [torch, setTorch] = useState(false);
-
-  const toggleTorch = () => setTorch((prev) => !prev);
-
-  return (
-    <View
-      style={[
-        { width: width - 48, height: width - 48 },
-        styles.cameraContainer,
-      ]}
-    >
-      <CameraView
-        ref={cameraRef}
-        enableTorch={torch}
-        barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-        {...props}
-        style={[styles.cameraView, props.style]}
-      />
-      <FAB
-        icon={{
-          name: torch ? "lightbulb" : "lightbulb-outline",
-          color: "white",
-        }}
-        style={{ position: "absolute", bottom: -24, left: 16, right: 16 }}
-        onPress={toggleTorch}
-      />
-    </View>
-  );
-};
-
 const useStyles = makeStyles(({ colors, spacing }) => ({
   safeArea: {
     flex: 1,
@@ -122,11 +82,4 @@ const useStyles = makeStyles(({ colors, spacing }) => ({
     height: StyleSheet.hairlineWidth,
     backgroundColor: colors.divider,
   },
-  cameraContainer: {
-    borderColor: colors.divider,
-    borderWidth: 1,
-    borderRadius: spacing.xl,
-    padding: spacing.lg,
-  },
-  cameraView: { flex: 1 },
 }));
