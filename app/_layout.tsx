@@ -33,10 +33,6 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
-
   useEffect(() => {
     (async () => {
       const permissions = await Notifications.getPermissionsAsync();
@@ -51,6 +47,10 @@ export default function RootLayout() {
       }
     })();
   }, []);
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
