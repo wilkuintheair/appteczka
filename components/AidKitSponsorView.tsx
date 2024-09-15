@@ -13,6 +13,7 @@ export const AidKitSponsorView = ({ sponsor }: { sponsor: AidKitSponsor }) => {
       <Text style={styles.text} h2>
         {sponsor.name}
       </Text>
+      <Text style={styles.text}>{sponsor.description}</Text>
     </View>
   );
 };

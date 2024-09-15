@@ -69,7 +69,7 @@ const commonData = {
     {
       id: "4",
       name: "Nożyczki",
-      quantity: 1,
+      quantity: 0,
       fullQuantity: 10,
     },
     {
@@ -81,7 +81,7 @@ const commonData = {
     {
       id: "6",
       name: "Gazik",
-      quantity: 5,
+      quantity: 1,
       fullQuantity: 10,
     },
   ],
@@ -94,7 +94,7 @@ export const AIDS_LIST: AidKit[] = [
     name: "Klimczok",
     marker: { latitude: 49.74001, longitude: 18.995952 },
     sponsor: {
-      name: "Uniwersytet Bielsko-Bialski",
+      name: "Uniwersytet Bielsko–Bialski",
       link: "https://www.ath.bielsko.pl/",
       description:
         "Uniwersytet Bielsko Bialski to uczelnia, która dba o zdrowie swoich studentów.",

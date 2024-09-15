@@ -1,6 +1,7 @@
-import { makeStyles } from "@rneui/themed";
+import { Button, makeStyles } from "@rneui/themed";
 import {
   ActivityIndicator,
+  Alert,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -17,13 +18,13 @@ import { scheduleOpenAidKitSequence } from "@/utils/scheduleOpenAidKitSequence";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import { AidKitSponsorView } from "@/components/AidKitSponsorView";
+import { AidKitContentTable } from "@/components/AidKitContentTable";
 
 export default function OpenAidKitScreen() {
   const styles = useStyles();
   const { aidId } = useLocalSearchParams<{ aidId: string }>();
   const aidKit = getAidKit(aidId);
-
-  const [validated, setValidated] = useState(false);
+  const [step, setStep] = useState<"scan" | "makeReport" | "choose">("choose");
 
   const navigation = useNavigation();
   navigation.setOptions({
@@ -57,7 +58,27 @@ export default function OpenAidKitScreen() {
   }
 
   const openAidKit = () => {
-    setValidated(true);
+    void scheduleOpenAidKitSequence();
+    setStep("choose");
+  };
+
+  const onBarcodeScanned = (data: BarcodeScanningResult) => {
+    if (data) {
+      openAidKit();
+      setStep("choose");
+      Alert.alert("Możesz skorzystać z apteczki");
+    }
+  };
+
+  const onNeedToUse = () => {
+    setStep("scan");
+  };
+
+  const onWantToHelp = () => {
+    setStep("makeReport");
+  };
+
+  const onReportMake = () => {
     const user = auth().currentUser;
     if (user) {
       firestore()
@@ -71,31 +92,37 @@ export default function OpenAidKitScreen() {
           score: firestore.FieldValue.increment(1),
         });
     }
-    void scheduleOpenAidKitSequence();
-  };
-
-  const onBarcodeScanned = (data: BarcodeScanningResult) => {
-    if (data) {
-      // TODO: Validate the scanned data
-      openAidKit();
-    }
+    setStep("choose");
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <AidKitHeader image={aidKit.image} description={aidKit.description} />
-        {aidKit.sponsor && (
+        {aidKit.sponsor && step !== "scan" && (
           <>
             <View style={styles.separator} />
             <AidKitSponsorView sponsor={aidKit.sponsor} />
           </>
         )}
         <View style={styles.separator} />
-        {!validated && (
+        <Text h4>Zawartość</Text>
+        <AidKitContentTable content={aidKit.content} />
+        {step === "choose" && (
+          <View style={styles.choiceContainer}>
+            <Button onPress={onNeedToUse}>
+              Potrzebuję skorzystać z apteczki
+            </Button>
+            <Button onPress={onWantToHelp}>Chcę pomóc Apteczce</Button>
+          </View>
+        )}
+        {step === "scan" && (
           <Pressable onLongPress={openAidKit}>
             <Scanner onBarcodeScanned={onBarcodeScanned} />
           </Pressable>
+        )}
+        {step === "makeReport" && (
+          <Button onPress={onReportMake}>Zgłoś brak nożyczek</Button>
         )}
       </View>
     </SafeAreaView>
@@ -114,5 +141,8 @@ const useStyles = makeStyles(({ colors, spacing }) => ({
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: colors.divider,
+  },
+  choiceContainer: {
+    gap: spacing.xl,
   },
 }));
