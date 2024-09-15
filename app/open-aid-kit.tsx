@@ -66,7 +66,7 @@ export default function OpenAidKitScreen() {
     if (data) {
       openAidKit();
       setStep("choose");
-      Alert.alert("Możesz skorzystać z apteczki");
+      Alert.alert("Możesz skorzystać z Apteczki");
     }
   };
 
@@ -92,6 +92,10 @@ export default function OpenAidKitScreen() {
           score: firestore.FieldValue.increment(1),
         });
     }
+    Alert.alert(
+      "Dziękujemy za zgłoszenie braku nożyczek!",
+      "Na Twoje konto wylądowało parę punktów",
+    );
     setStep("choose");
   };
 

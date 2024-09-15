@@ -39,7 +39,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name={"rank"}
         options={{
-          title: "Ranking",
+          title: "Najlepsi",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "podium" : "podium-outline"}
