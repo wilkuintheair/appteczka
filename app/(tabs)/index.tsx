@@ -7,9 +7,17 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
-        <HomeButton href={"/report-issue"}>Zgłoś zdarzenie</HomeButton>
-        <HomeButton href={"/call-help"}>Wezwij pomoc</HomeButton>
-        <HomeButton href={"/map?nearest=true"}>
+        <HomeButton icon={"warning"} href={"/report-issue"}>
+          Zgłoś zdarzenie
+        </HomeButton>
+        <HomeButton
+          type={"material-community"}
+          icon={"account-voice"}
+          href={"/call-help"}
+        >
+          Wezwij pomoc
+        </HomeButton>
+        <HomeButton icon={"medkit"} href={"/map?nearest=true"}>
           Znajdź najbliższą apteczkę
         </HomeButton>
       </View>
