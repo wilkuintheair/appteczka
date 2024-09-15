@@ -1,6 +1,7 @@
 import { makeStyles } from "@rneui/themed";
 import {
   ActivityIndicator,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   View,
@@ -69,7 +70,11 @@ export default function OpenAidKitScreen() {
       <View style={styles.container}>
         <AidKitHeader image={aidKit.image} description={aidKit.description} />
         <View style={styles.separator} />
-        {!validated && <Scanner onBarcodeScanned={onBarcodeScanned} />}
+        {!validated && (
+          <Pressable onLongPress={openAidKit}>
+            <Scanner onBarcodeScanned={onBarcodeScanned} />
+          </Pressable>
+        )}
       </View>
     </SafeAreaView>
   );
