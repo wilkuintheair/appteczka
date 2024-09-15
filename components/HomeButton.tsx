@@ -18,15 +18,22 @@ export const HomeButton = ({ href, children, icon, type }: Props) => {
   };
 
   return (
-    <Pressable onPress={onPress} style={styles.container}>
+    <Pressable
+      pointerEvents={"box-only"}
+      onPress={onPress}
+      style={styles.container}
+    >
       <Icon type={type ?? "font-awesome"} size={64} name={icon} />
       <Button size={"lg"}>{children}</Button>
     </Pressable>
   );
 };
 
-const useStyles = makeStyles(({ spacing }) => ({
+const useStyles = makeStyles(({ colors, spacing }) => ({
   container: {
     gap: spacing.md,
+  },
+  button: {
+    backgroundColor: colors.primary,
   },
 }));
